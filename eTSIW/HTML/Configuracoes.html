@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>eTSIW -Gestão de eventos</title>
+    <title>eTSIW - Gestão de eventos</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,23 +14,34 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
         crossorigin="anonymous">
+
+    <script src="../JS/Configuracoes.js"></script>
+
+    <style>
+        .btn-default {
+            background-color: #c94d24;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#" style="color: #04B4AE">eTSIW</a>
+    <nav class="navbar navbar-expand navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="Inicio.html" style="color: #E7662B">
+            <img src="../Imagens/logo_2.png" height="30" width="85">
+        </a>
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" id="eventos">
-                    <a class="nav-link" href="#">Eventos</a>
+                    <a class="nav-link" href="Eventos.html">Eventos</a>
                 </li>
                 <li class="nav-item" id="testemunhos">
-                    <a class="nav-link" href="#">Testemunhos</a>
+                    <a class="nav-link" href="Testemunhos.html">Testemunhos</a>
                 </li>
                 <li class="nav-item" id="configuracoes">
-                    <a class="nav-link" href="#">Configurações</a>
+                    <a class="nav-link" href="Configuracoes.html">Configurações</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -41,56 +52,82 @@
         </div>
     </nav>
 
-    <div class="row">
+    <div class="row" style="margin-top:70px">
         <div class="col-2"></div>
         <div class="col-8">
             <div class="jumbotron">
-                <h1 class="display-3 text-center m-3">Configurações</h1>
+                <h1 class="display-3 text-center">Configurações</h1>
+                <br>
+                <p class="lead text-center">Nesta secção pode listar todos os estudantes, docentes, parcerias e categorias disponíveis</p>
                 <form action="form-inline">
                     <div class="form-group">
-                        <label for="tipo">Estudantes</label>
-                        <button class="btn btn-info ml-1 mb-2" type="button" id="ver"><i class="far fa-eye"></i> Ver</button>
+                        <label for="inputTable">Tabela</label>
+                        <select id="inputTabela" class="form-control">
+                            <option value="Estudantes">Estudantes</option>
+                            <option value="Docentes">Docentes</option>
+                            <option value="Parcerias">Parcerias</option>
+                            <option value="Categorias">Categorias</option>
+                        </select>
                     </div>
+                    <button class="btn btn-default mb-2 mr-1" type="button" id="procurar">
+                        <i class="fas fa-search"></i> Listar</button>
+                    <button class="btn btn-default mb-2 mr-1" type="button" data-toggle="modal" data-target="#modalParceria" id="criarParceria">
+                        <i class="fas fa-plus"></i> Criar Parceria</button>
                 </form>
-                <form action="form-inline">
-                    <div class="form-group">
-                        <label for="tipo">Docentes</label>
-                        <button class="btn btn-info ml-3 mb-2" type="button" id="adicionar"><i class="fas fa-plus"></i> Adicionar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="editar"><i class="far fa-edit"></i> Editar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="ver"><i class="far fa-eye"></i> Ver</button>
+                <div id="card" class="container">
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="tblConfiguracoes" class="table table-sm">
+                        </table>
                     </div>
-                </form>
-                <form action="form-inline">
-                    <div class="form-group">
-                        <label for="tipo">Parcerias</label>
-                        <button class="btn btn-info ml-3 mb-2" type="button" id="adicionar"><i class="fas fa-plus"></i> Adicionar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="adicionar"><i class="fas fa-minus"></i> Remover</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="editar"><i class="far fa-edit"></i> Editar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="ver"><i class="far fa-eye"></i> Ver</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!--Modal Criar Parceria-->
+        <div class="modal fade" id="modalParceria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Parceria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </form>
-                <form action="form-inline">
-                    <div class="form-group">
-                        <label for="tipo">Categorias</label>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="adicionar"><i class="fas fa-plus"></i> Adicionar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="adicionar"><i class="fas fa-minus"></i> Remover</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="editar"><i class="far fa-edit"></i> Editar</button>
-                        <button class="btn btn-info ml-2 mb-2" type="button" id="ver"><i class="far fa-eye"></i> Ver</button>
+                    <div class="modal-body">
+                        <form id="formInstituicao">
+                            <div class="form-group">
+                                <label for="modalNomeInstituicao">Nome da Instituição</label>
+                                <input maxlength="30" class="form-control" id="modalNomeInstituicao" placeholder="Nome da Instituição" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalLocalizacaoInstituicao">Localização da Instituição</label>
+                                <input class="form-control" id="modalLocalizaoInstituicao" placeholder="Localização da Instituição" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalLinkInstituicao">Link da Instituição</label>
+                                <input class="form-control" id="modalLinkInstituicao" placeholder="Link da Instituição" type="url" required>
+                            </div>
                     </div>
-                </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                        <input type="submit" class="btn btn-info" value="Adicionar Parceria" id="submitInstituicao" />
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>

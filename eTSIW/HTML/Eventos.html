@@ -16,20 +16,34 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
         crossorigin="anonymous">
+
+    <script src="../JS/Eventos.js"></script>
+
+    <style>
+        .btn-default {
+            background-color: #c94d24;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#" style="color: #04B4AE">Imagem proj</a>
+    <nav class="navbar navbar-expand navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="Inicio.html" style="color: #c94d24">
+            <img src="../Imagens/logo_2.png" height="30" width="85">
+        </a>
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" id="sobre">
-                    <a class="nav-link" href="#">Sobre</a>
+                <li class="nav-item" id="eventos">
+                    <a class="nav-link" href="Eventos.html">Eventos</a>
                 </li>
-                <li class="nav-item" id="contactos">
-                    <a class="nav-link" href="#">Eventos</a>
+                <li class="nav-item" id="testemunhos">
+                    <a class="nav-link" href="Testemunhos.html">Testemunhos</a>
+                </li>
+                <li class="nav-item" id="configurações">
+                    <a class="nav-link" href="Configurações.html">Configurações</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -39,34 +53,153 @@
                 <li class="nav-item" id="login">
                     <a data-toggle="modal" data-target="#modalLogin" class="nav-link" href="#">Login</a>
                 </li>
-                <li class="nav-item" id="login">
-                    <a data-toggle="modal" data-target="#modalLogin" class="nav-link" href="#">Logout</a>
+                <li class="nav-item" id="logout">
+                    <a data-toggle="modal" data-target="#" class="nav-link" href="#">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="row">
+    <div class="row" style="margin-top:70px">
         <div class="col-2"></div>
         <div class="col-8">
             <div class="jumbotron">
                 <h1 class="display-3 text-center">Eventos</h1>
+                <br>
                 <p class="lead text-center">Nesta secção pode ver todas os eventos existentes</p>
                 <form action="form-inline">
                     <div class="form-group">
                         <label for="tipo">Tipo de Eventos</label>
                         <select name="" id="tipo" class="form-control"></select>
                     </div>
-                    <button class="btn btn-info mb-2 mr-1" type="button" id="procurar">
-                <i class="fas fa-search"></i> Procurar</button>
-                    <button class="btn btn-info mb-2" type="button" id="adicionar"><i class="fas fa-plus"></i> Adicionar Evento</button>
+                    <button class="btn btn-default mb-2 mr-1" type="button" id="procurar">
+                        <i class="fas fa-search"></i> Procurar</button>
+                    <button class="btn btn-default mb-2" type="button" data-toggle="modal" data-target="#modalEventos" id="adicionar">
+                        <i class="fas fa-plus"></i> Adicionar Evento</button>
                 </form>
                 <div id="card" class="container"></div>
             </div>
         </div>
     </div>
 
+    <!-- Modal Eventos-->
+    <div class="modal fade" id="modalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formRegisto">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalNomeEvento" maxlength="30" placeholder="Nome do Evento" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" maxlength="80" id="modalDescricao" placeholder="Descrição" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalData" placeholder="Data" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalHora" placeholder="Hora" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalSala" placeholder="Sala" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalResponsavel" placeholder="Responsável" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="modalParceria" placeholder="Parceria" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="url" class="form-control" id="modalImagemEvento" placeholder="Imagem (opcional)">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    <input type="submit" class="btn btn-info" value="Adicionar" />
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <!--Modal Registo-->
+    <div class="modal fade" id="modalRegisto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formRegisto">
+                        <div class="form-group">
+                            <label for="modalNome">Nome</label>
+                            <input type="text" class="form-control" id="modalNome" maxlength="30" placeholder="Nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalEmail">Email</label>
+                            <input type="email" class="form-control" maxlength="20" id="modalEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalPass">Password</label>
+                            <input type="password" class="form-control" id="modalPass" minlength="5" maxlength="10" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalConfPass">Confirmar Password</label>
+                            <input type="password" class="form-control" id="modalConfPass" minlength="5" maxlength="10" placeholder="Confirmar Password"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalFoto">Foto</label>
+                            <input type="url" class="form-control" id="modalFoto" placeholder="url foto (opcional)">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    <input type="submit" class="btn btn-info" value="Registar" id="submitRegistar" />
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Login-->
+    <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formLogin">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPass">Password</label>
+                            <input minlength="5" type="password" class="form-control" id="loginPass" placeholder="Password" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    <input type="submit" class="btn btn-info" value="Login" id="submitLogin" />
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
