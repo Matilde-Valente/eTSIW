@@ -3,7 +3,7 @@ let existe = false;
 
 //CLASSE EVENTO
 class Evento {
-    constructor(nome, descricao, data, hora, sala, responsavel, parceria, imagem, comentarios, pontuacao) {
+    constructor(nome, descricao, data, hora, sala, responsavel, parceria, imagem, comentario, pontuacao) {
         this._id = Evento.ultimoId() + 1
         this.nome = nome
         this.descricao = descricao
@@ -13,7 +13,7 @@ class Evento {
         this.responsavel = responsavel
         this.parceria = parceria
         this.imagem = imagem
-        this.comentarios = comentarios
+        this.comentario = comentario
         this.pontuacao = pontuacao
     }
 
@@ -100,30 +100,38 @@ if (localStorage.getItem("eventos") == null) {
     localStorage.setItem("eventos", JSON.stringify(eventos));
 }
 
-let nomeEvento = document.getElementById("modalNomeEvento")
-let descricao = document.getElementById("modalDescricao")
-let data = document.getElementById("modalData")
-let hora = document.getElementById("modalHora")
-let sala = document.getElementById("modalSala")
-let responsavel = document.getElementById("modalResponsavel")
-let parceria = document.getElementById("modalParceria")
-let imagem = document.getElementById("modalImagemEvento")
-
 window.onload = function () {
-    eventos = JSON.parse(localStorage.getItem("eventos"));
+    console.log(localStorage.getItem("eventos"))
 
-    let adicionar = document.getElementById("adicionar")
+    if (eventos <= 0) {
+        eventos = JSON.parse(localStorage.getItem("eventos"));
+    }
+    console.log(eventos)
 
-    if (eventos == null) {
-        let novoEvento = new Evento(nomeEvento.value, descricao.value, data.value, hora.value, sala.value, responsavel.value, parceria.value, imagem.value)
-        eventos.push(novoEvento); localStorage.setItem("eventos", JSON.stringify(eventos));
-        alert("Registo criado com sucesso")
-        console.log(eventos);
+    let caminho = window.location.pathname.split('/')
+    console.log(caminho)
+    if (caminho[8] == "Eventos.html") {
+        criarCard();
+    }
+    let caminho2 = caminho[8].split('#')
+    if (caminho2[0] == "vEventos.html") {
+        carregarEventos();
     }
 
-    function adicionarEventos(event) {
+    let adicionar = document.getElementById("modalEventos")
+
+    adicionar.addEventListener("submit", function () {
+        console.log("ola")
 
         let strErro = "";
+        let nomeEvento = document.getElementById("modalNomeEvento")
+        let descricao = document.getElementById("modalDescricao")
+        let data = document.getElementById("modalData")
+        let hora = document.getElementById("modalHora")
+        let sala = document.getElementById("modalSala")
+        let responsavel = document.getElementById("modalResponsavel")
+        let parceria = document.getElementById("modalParceria")
+        let imagem = document.getElementById("modalImagemEvento")
 
         for (let i = 0; i < eventos.length; i++) {
             if (nomeEvento.value == eventos[i]._nome) {
@@ -131,7 +139,6 @@ window.onload = function () {
                 existe = true
                 event.preventDefault();
             }
-
             else if (sala.value == eventos[i]._sala) {
                 strErro += "\nA sala já está ocupada"
                 existe = true
@@ -144,10 +151,9 @@ window.onload = function () {
         console.log("passou o primeiro if");
         if (strErro == "") {
             if (existe == false) {
-                let novoEvento = new Evento(nomeEvento.value, descricao.value, data.value, hora.value, sala.value, responsavel.value, parceria.value, imagem.value)
+                let novoEvento = new Evento(nomeEvento.value, descricao.value, data.value, hora.value, sala.value, responsavel.value, parceria.value, imagem.value, "", "")
                 eventos.push(novoEvento);
                 alert("Registo criado com sucesso")
-                console.log(eventos);
 
                 localStorage.setItem("eventos", JSON.stringify(eventos));
                 console.log(localStorage);
@@ -157,17 +163,7 @@ window.onload = function () {
         else {
             alert(strErro)
         }
-
-    }
-    var caminho = window.location.pathname.split('/')
-    console.log(caminho)
-    if (caminho[8] == "Eventos.html") {
-        criarCard();
-    }
-    if (caminho[8] == "vEventos.html") {
-        carregarEventos();
-    }
-
+    });
 }
 
 //Adiciona dados ao card
@@ -195,7 +191,6 @@ function criarCard() {
     }
     let catalogoEventos = document.getElementById("card")
     catalogoEventos.innerHTML = strCard
-
 }
 
 function abrirEventos(_id) {
@@ -208,7 +203,6 @@ let eventoCarregado = []
 //PAGINA VER EVENTOS
 function carregarEventos() {
     let id = window.location.hash
-
 
     let substringID = id.substring(1)
     console.log(substringID)
@@ -237,7 +231,7 @@ function carregarEventos() {
     }
     console.log(eventoCarregado)
 
-    console.log(strDetalhes)
+    // console.log(strDetalhes)
     let detalhesEvento = document.getElementById("detalhes")
     detalhesEvento.innerHTML += strDetalhes
 }

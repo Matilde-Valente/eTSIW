@@ -57,32 +57,32 @@ class Utilizador {
 }
 
 class Testemunho {
-    constructor(inputName, comentario) {
-        this._inputName = Utilizador.ultimoId() + 1
+    constructor(inputNome, comentario) {
+        this._inputNome = Utilizador.ultimoId() + 1
         this._comentario = comentario
     }
-    get inputName() {
-        return this._inputName
+    get inputNome() {
+        return this._inputNome
     }
-    set inputName(newName) {
-        this._inputName = newName
+    set inputNome(novoNome) {
+        this._inputNome = novoNome
     }
     get comentario() {
         return this._comentario
     }
-    set comentario(newComentario) {
+    set comentario(novoComentario) {
         return this._comentario
     }
 }
 
 window.onload = function () {
     let registar = document.getElementById("registar")
-    let loginNav = document.getElementById("login")
+    let login = document.getElementById("login")
     let logout = document.getElementById("logout")
     let submitLogin = document.getElementById("submitLogin");
     let submitRegistar = document.getElementById("submitRegistar");
-    let newTestemunho = document.getElementById("newTestemunho");
-    let inputName = document.getElementById("inputName");
+    let novoTestemunho = document.getElementById("novoTestemunho");
+    let inputNome = document.getElementById("inputNome");
     let comentario = document.getElementById("comentario")
     let apagarTestemunho = document.getElementById("apagarTestemunho");
 
@@ -95,7 +95,7 @@ window.onload = function () {
     //Autofill do ID do user logado para criar testemunho (comentário)
     //isto depois mal esteja feito é preciso meter limite de 4 caracteres
     if (logado != null) {
-        inputName.value = logado[1];
+        inputNome.value = logado[1];
     }
     if (logado == null) {
 
@@ -103,7 +103,7 @@ window.onload = function () {
         login.style.display = 'block';
         logout.style.display = 'none';
 
-        newTestemunho.style.display = 'none';
+        novoTestemunho.style.display = 'none';
 
     }
     else {
@@ -111,9 +111,10 @@ window.onload = function () {
         login.style.display = 'none';
         logout.style.display = 'block';
 
-        newTestemunho.style.display = 'block'
+        novoTestemunho.style.display = 'block'
         console.log("alguem ta logado")
     }
+
 
     logout.addEventListener("click", function (event) {
         localStorage.removeItem("logado");
@@ -122,36 +123,43 @@ window.onload = function () {
     });
 
     //LOGIN
-    let modalLogin = document.getElementById("modalLogin")
-    let encontrado = false
-    modalLogin.addEventListener("submit", function (event) {
-        console.log(utilizadores)
-        let lEmail = document.getElementById("loginEmail")
-        let lPass = document.getElementById("loginPass")
+    login.addEventListener("click", function (event) {
 
-        //Verifica se o input existe
-        for (let i = 0; i < utilizadores.length; i++) {
-            console.log(i)
-            if (lEmail.value == utilizadores[i]._email && lPass.value == utilizadores[i]._pass) {
-                if (localStorage.getItem("logado") == null) {
-                    let logado = []
-                    logado.push(utilizadores[i]._nome, utilizadores[i]._email, utilizadores[i]._estatuto);
-                    localStorage.setItem("logado", JSON.stringify(logado));
-                    console.log("qualquer coisa")
+        let login = document.getElementById("modalLogin")
+        let encontrado = false
+        login.addEventListener("submit", function (event) {
+            console.log(utilizadores)
+            let lEmail = document.getElementById("loginEmail")
+            let lPass = document.getElementById("loginPass")
+
+            //Verifica se o input existe
+            for (let i = 0; i < utilizadores.length; i++) {
+                console.log(i)
+                if (lEmail.value == utilizadores[i]._email && lPass.value == utilizadores[i]._pass) {
+                    if (localStorage.getItem("logado") == null) {
+                        let logado = [];
+                        logado.push(utilizadores[i]._id, utilizadores[i]._nome, utilizadores[i]._email, utilizadores[i]._estatuto);
+                        localStorage.setItem("logado", JSON.stringify(logado));
+                        console.log("qualquer coisa")
+                    }
+                    encontrado = true
+
+                    alert("Login feito com sucesso")
+                    location.reload()
+                    //window.location.replace("Testemunhos.html");
+                    //ESTE RELOAD NÃO ESTÁ A DAR!!! 
+
                 }
-                encontrado = true
-                alert("Login feito com sucesso")
             }
-        }
-        if (encontrado == false) {
-            alert("Email ou palavra passe incorretos!")
-            event.preventDefault();
-        }
+            if (encontrado == false) {
+                alert("Email ou palavra passe incorretos!")
+                event.preventDefault();
+            }
 
+
+        })
 
     })
-    
-// $('#modalLogin').modal('hide');
     //REGISTAR
     registar.addEventListener("click", function (event) {
         let registo = document.getElementById("modalRegisto")

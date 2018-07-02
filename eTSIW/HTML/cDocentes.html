@@ -16,7 +16,6 @@
         crossorigin="anonymous">
 
     <script src="../JS/Inicio.js"></script>
-
 </head>
 
 <body>
@@ -55,7 +54,6 @@
         </div>
     </nav>
 
-
     <div class="row" style="margin-top:70px">
         <div class="col-2"></div>
         <div class="col-8">
@@ -65,9 +63,9 @@
                 <p class="lead text-center">Nesta secção pode consultar os docentes do curso de TSIW</p>
                 <div id="card" class="container"></div>
 
-                </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Modal Profs -->
@@ -80,78 +78,76 @@
 
     <!--Modal Registo-->
     <div class="modal fade" id="modalRegisto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Registo</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formRegisto">
-                            <div class="form-group">
-                                <label for="modalNome">Nome</label>
-                                <input type="text" class="form-control" id="modalNome" maxlength="30" placeholder="Nome" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="modalEmail">Email</label>
-                                <input type="email" class="form-control" maxlength="20" id="modalEmail" placeholder="Email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="modalPass">Password</label>
-                                <input type="password" class="form-control" id="modalPass" minlength="5" maxlength="10" placeholder="Password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="modalConfPass">Confirmar Password</label>
-                                <input type="password" class="form-control" id="modalConfPass" minlength="5" maxlength="10" placeholder="Confirmar Password"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label for="modalFoto">Foto</label>
-                                <input type="url" class="form-control" id="modalFoto" placeholder="url foto (opcional)">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
-                        <input type="submit" class="btn btn-info" value="Registar" />
-                    </div>
-                    </form>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form id="formRegisto">
+                        <div class="form-group">
+                            <label for="modalNome">Nome</label>
+                            <input type="text" class="form-control" id="modalNome" maxlength="30" placeholder="Nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalEmail">Email</label>
+                            <input type="email" class="form-control" maxlength="20" id="modalEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalPass">Password</label>
+                            <input type="password" class="form-control" id="modalPass" minlength="5" maxlength="10" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalConfPass">Confirmar Password</label>
+                            <input type="password" class="form-control" id="modalConfPass" minlength="5" maxlength="10" placeholder="Confirmar Password"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalFoto">Foto</label>
+                            <input type="url" class="form-control" id="modalFoto" placeholder="url foto (opcional)">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    <input type="submit" class="btn btn-info" value="Registar" />
+                </div>
+                </form>
             </div>
         </div>
-    
-        <!--Modal Login-->
-        <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Login</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formLogin">
-                            <div class="form-group">
-                                <label for="loginEmail">Email</label>
-                                <input type="email" class="form-control" id="loginEmail" placeholder="Email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="loginPass">Password</label>
-                                <input minlength="5" type="password" class="form-control" id="loginPass" placeholder="Password" required>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
-                        <input type="submit" class="btn btn-info" value="Login" />
-                    </div>
-                    </form>
+    </div>
+
+    <!--Modal Login-->
+    <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form id="formLogin">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPass">Password</label>
+                            <input minlength="5" type="password" class="form-control" id="loginPass" placeholder="Password" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    <input type="submit" class="btn btn-info" value="Login" />
+                </div>
+                </form>
             </div>
         </div>
-
-
+    </div>
 
 
     <!-- Optional JavaScript -->
