@@ -41,7 +41,10 @@
                 <li class="nav-item" id="testemunhos">
                     <a class="nav-link" href="Testemunhos.html">Testemunhos</a>
                 </li>
-                <li class="nav-item" id="configurações">
+                <li class="nav-item" id="consultarDocente">
+                    <a class="nav-link" href="cDocentes.html">Docentes</a>
+                </li>
+                <li class="nav-item" id="configuracoes">
                     <a class="nav-link" href="Configurações.html">Configurações</a>
                 </li>
             </ul>
@@ -60,8 +63,8 @@
     </nav>
 
     <div class="row" style="margin-top:70px">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-1"></div>
+        <div class="col-10">
             <div class="jumbotron">
                 <h1 class="display-3 text-center">Eventos</h1>
                 <br>
@@ -100,10 +103,10 @@
                             <input type="text" class="form-control" maxlength="80" id="modalDescricao" placeholder="Descrição" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="modalData" placeholder="Data" required>
+                            <input type="date" class="form-control" min=dataAtual id="modalData" placeholder="dd-mm-aaaa" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="modalHora" placeholder="Hora" required>
+                            <input type="text" class="form-control" id="modalHora" placeholder="hh-mm" required>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="modalSala" placeholder="Sala" required>

@@ -20,7 +20,7 @@
 
 <body>
     <nav class="navbar navbar-expand navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#" style="color: #E7662B">
+        <a class="navbar-brand" href="Inicio.html" style="color: #E7662B">
             <img src="../Imagens/logo_2.png" height="30" width="85">
         </a>
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -33,11 +33,11 @@
                 <li class="nav-item" id="testemunhos">
                     <a class="nav-link" href="Testemunhos.html">Testemunhos</a>
                 </li>
-                <li class="nav-item" id="configuracoes">
-                    <a class="nav-link" href="Configuracoes.html">Configurações</a>
-                </li>
                 <li class="nav-item" id="consultarDocente">
                     <a class="nav-link" href="cDocentes.html">Docentes</a>
+                </li>
+                <li class="nav-item" id="configuracoes">
+                    <a class="nav-link" href="Configuracoes.html">Configurações</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -55,23 +55,39 @@
     </nav>
 
     <div class="row" style="margin-top:70px">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-1"></div>
+        <div class="col-10">
             <div class="jumbotron">
                 <h1 class="display-3 text-center">Docentes</h1>
                 <br>
                 <p class="lead text-center">Nesta secção pode consultar os docentes do curso de TSIW</p>
-                <div id="card" class="container"></div>
-
+                <div id="cardDocente" class="container"></div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Modal Profs -->
     <div class="modal fade" id="modalProf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-responsive w-100 h-100" id="fotoProf" src="">
+                    <div>
+                        <h2 class="display-3 text-center m-2" id="nomeProf"></h1>
+                    </div>
+                    <center>
+                        <div class="lead" id="emailProf"></div>
+                    </center>
+                    <div><b>Formação:</b><div id="formacaoProf"></div></div>
+                    <div><b>Unidades Curriculares Lecionadas:</b><div id="unidadeCurricularProf"></div></div>
+                    <div><b>CV:</b><div id="cvProf"></div></div>
+                </div>
             </div>
         </div>
     </div>
