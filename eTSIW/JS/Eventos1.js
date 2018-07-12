@@ -110,6 +110,10 @@ if (localStorage.getItem("eventos") == null) {
 //Vai buscar a key utilizadores e guarda no array utilizadores
 utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
 
+logado = JSON.parse(localStorage.getItem("logado"));
+
+docentes = JSON.parse(localStorage.getItem("docentes"));
+
 window.onload = function () {
     console.log(localStorage.getItem("eventos"))
 
@@ -133,6 +137,50 @@ window.onload = function () {
 
     if (adicionar != null) {
         adicionar.addEventListener("submit", adicionarEvento);
+    }
+
+    let registar = document.getElementById("registar")
+    let login = document.getElementById("login")
+    let logout = document.getElementById("logout")
+    let eventosBotao = document.getElementById("eventos")
+    let cDocentes = document.getElementById("consultarDocente")
+    let configuracoes = document.getElementById("configuracoes")
+    let registarEventos = document.getElementById("registarEventos")
+
+    if (logado == null) {
+        registar.style.display = 'block';
+        login.style.display = 'block';
+        logout.style.display = 'none';
+        configuracoes.style.display = 'none';
+    }
+    else {
+        registar.style.display = 'none';
+        login.style.display = 'none';
+        logout.style.display = 'block';
+        for (let i = 0; i < logado.length; i++) {
+            if (logado[2] == "admin") {
+                eventosBotao.style.display = 'block';
+                testemunhos.style.display = 'block';
+                configuracoes.style.display = 'block';
+                cDocentes.style.display = 'block';
+                console.log("admin logado")
+            }
+            if (logado[2] == "estudante") {
+                eventosBotao.style.display = 'block';
+                testemunhos.style.display = 'block';
+                configuracoes.style.display = 'none';
+                cDocentes.style.display = 'block';
+                registarEventos.style.display = 'none'
+                console.log("estudante logado")
+            }
+            if (logado[2] == "docente") {
+                eventosBotao.style.display = 'block';
+                testemunhos.style.display = 'block';
+                configuracoes.style.display = 'block';
+                cDocentes.style.display = 'block';
+                console.log("docente logado")
+            }
+        }
     }
 }
 
@@ -172,7 +220,7 @@ function adicionarEvento() {
             existe = true
             event.preventDefault();
         }
-        if (sala.value == eventos[i]._sala) {
+        if (sala.value == eventos[i]._sala && data.value == eventos[i]._data && hora.value == eventos[i]._hora) {
             strErro += "\nA sala já está ocupada! Por favor escolha outra sala"
             existe = true
             event.preventDefault();
@@ -214,7 +262,7 @@ function criarCard() {
         // Cria o card
         strCard += `<div class="col-sm-4">
         <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
-            <img class="card-img-top" style="width: 286px; heigth: 286px" src="${eventos[i]._imagem}" alt="Card image cap">
+            <img class="card-img-top" style="width: 286px; heigth: 286px" src="${eventos[i]._imagem}">
             <div class="card-body">
                 <h5 class="card-title">${eventos[i]._nome}</h5>
                 <p class="card-text">${eventos[i]._descricao}</p>`
@@ -256,7 +304,6 @@ function carregarEventos() {
     strDetalhes += `<div class="col-1"></div>
         <div class="col-10"><div class="jumbotron mt-5">
         <img class="img-responsive w-100 h-100" src="${eventoCarregado[0]._imagem}">
-    
         <div><h1 class="display-3 text-center m-3">${eventoCarregado[0]._nome}</h1></div>
         <div><center><table class='w-25' style='text-align:center'>
         <thead>
