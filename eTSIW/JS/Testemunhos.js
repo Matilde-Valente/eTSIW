@@ -32,6 +32,7 @@ window.onload = function () {
     let testemunhos = document.getElementById("testemunhos")
     let cDocentes = document.getElementById("consultarDocente")
     let configuracoes = document.getElementById("configuracoes")
+    let imgLogado = document.getElementById("imagemLogado")
 
     //carregar array de utilizadores do localstorage
     utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
@@ -70,6 +71,11 @@ window.onload = function () {
                 cDocentes.style.display = 'block';
                 novoTestemunho.style.display = 'block'
                 console.log("estudante logado")
+                for (let j = 0; j < utilizadores.length; j++) {
+                    if (logado[0] == utilizadores[j]._nome) {
+                        imgLogado.src = utilizadores[j]._foto
+                    }
+                }
             }
             if (logado[2] == "docente") {
                 eventosBotao.style.display = 'block';
@@ -78,6 +84,11 @@ window.onload = function () {
                 cDocentes.style.display = 'block';
                 novoTestemunho.style.display = 'none'
                 console.log("docente logado")
+                for (let j = 0; j < docentes.length; j++) {
+                    if (logado[0] == docentes[j]._nome) {
+                        imgLogado.src = docentes[j]._foto
+                    }
+                }
             }
         }
     }

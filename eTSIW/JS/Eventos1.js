@@ -7,10 +7,12 @@ let botao;
 let arrayComentarios = [];
 let substringID;
 let url;
+let categoriasArray = [];
+let dataAtual
 
 //CLASSE EVENTO
 class Evento {
-    constructor(nome, descricao, data, hora, sala, responsavel, parceria, imagem, comentario, pontuacao) {
+    constructor(nome, descricao, data, hora, sala, responsavel, parceria, imagem, comentario, pontuacao, categoria) {
         this._id = Evento.ultimoId() + 1
         this.nome = nome
         this.descricao = descricao
@@ -22,6 +24,7 @@ class Evento {
         this.imagem = imagem
         this.comentario = comentario
         this.pontuacao = pontuacao
+        this.categoria = categoria
     }
 
     get nome() {
@@ -94,6 +97,13 @@ class Evento {
         this._pontuacao = novaPontuacao
     }
 
+    get categoria() {
+        return this._categoria
+    }
+    set categoria(novaCategoria) {
+        this._categoria = novaCategoria
+    }
+
     static ultimoId() {
         let ultimoId = 0
         if (eventos.length != 0) {
@@ -103,31 +113,105 @@ class Evento {
     }
 }
 
+class Categoria {
+    constructor(descricao) {
+        this._descricao = descricao;
+    }
+    get descricao() {
+        return this._descricao;
+    }
+    set descricao(novaDescricao) {
+        this._descricao = novaDescricao;
+    }
+}
+
+class Parceria {
+    constructor(instituicao, localizacao, link) {
+        this.instituicao = instituicao;
+        this.localizacao = localizacao;
+        this.link = link;
+    }
+
+    get instituicao() {
+        return this._instituicao;
+    }
+    set instituicao(novaInstituicao) {
+        this._instituicao = novaInstituicao
+    }
+
+    get localizacao() {
+        return this._localizacao;
+    }
+    set localizacao(novaLocalizacao) {
+        this._localizacao = novaLocalizacao;
+    }
+
+    get link() {
+        return this._link;
+    }
+    set link(novoLink) {
+        this._link = novoLink;
+    }
+
+}
+
 if (localStorage.getItem("eventos") == null) {
+    eventos.push(new Evento("Workshop Bootstrap", "Aprender bootstrap", "2018-05-13", "11:00", "B201", "Ricardo Queirós", "ESMAD", "", [], "5", "Workshop"))
+    eventos.push(new Evento("Workshop Design", "Vem aprender algumas técnicas de design, neste workshop divertido", "2018-03-21", "14:30", "B206", "Marta Fernandes", "ESMAD", "", [], "5", "Workshop"))
+    eventos.push(new Evento("Conferência Blockchain", "A revolução Blockchain está a acontecer agora, e irá ter um profundo efeito transformador. É a maior inovação desde a Internet, criando processos mais democráticos, seguros, transparentes e eficientes, podendo dar origem a um mundo mais próspero em que as organizações e os indivíduos vão poder participar de forma mais ativa no valor que criam.", "2018-06-13", "11:00", "B201", "Ricardo Queirós", "ESMAD", "", [], "5", "Conferência"))
+    eventos.push(new Evento("MasterClass Blockchain", "Aprender sobre blockchain", "2018-07-17", "11:00", "B201", "Ricardo Queirós", "ESMAD", "", [], "5", "MasterClass"))
+    eventos.push(new Evento("Workshop Criatividade e Inovação", "Dar a conhecer a importância da criatividade na adoção de práticas inovadoras;", "2018-07-21", "14:30", "B206", "Rui Rodrigues e Teresa Terroso", "ESMAD", "", [], "5", "Workshop"))
     localStorage.setItem("eventos", JSON.stringify(eventos));
 }
 
-//Vai buscar a key utilizadores e guarda no array utilizadores
-utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
+//Criar categorias caso key utilizadores esteja vazia
+if (localStorage.getItem("categorias") == null) {
+    categoriasArray.push(new Categoria("Workshop"))
+    categoriasArray.push(new Categoria("Conferência"))
+    categoriasArray.push(new Categoria("MasterClass"))
+    localStorage.setItem("categorias", JSON.stringify(categoriasArray));
+}
 
-logado = JSON.parse(localStorage.getItem("logado"));
-
-docentes = JSON.parse(localStorage.getItem("docentes"));
+if (localStorage.getItem("parcerias") == null) {
+    localStorage.setItem("parcerias", JSON.stringify(parceriasArray));
+}
 
 window.onload = function () {
-    console.log(localStorage.getItem("eventos"))
+    //Vai buscar a key utilizadores e guarda no array UTLIZADORES
+    utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
+    //Vai buscar a key logado e guarda no array LOGADO
+    logado = JSON.parse(localStorage.getItem("logado"));
+    //Vai buscar a key docentes e guarda no array DOCENTES
+    docentes = JSON.parse(localStorage.getItem("docentes"));
+    //Vai buscar a key categorias e guarda no array CATEGORIAS
+    categoriasArray = JSON.parse(localStorage.getItem("categorias"))
+    //Vai buscar a key parecerias e guarda no array PARCERIAS
+    parcerias = JSON.parse(localStorage.getItem("parcerias"))
 
     if (eventos <= 0) {
         eventos = JSON.parse(localStorage.getItem("eventos"));
     }
-    console.log(eventos)
+
+    //Data Atual
+    dataAtual = new Date();
+    let dd = dataAtual.getDate();
+    let mm = dataAtual.getMonth() + 1; //Janeiro é 0
+    let aaaa = dataAtual.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    dataAtual = aaaa + '-' + mm + '-' + dd;
+    console.log("Data atual: " + dataAtual)
 
     adicionar = document.getElementById("modalEventos")
     detalhesEvento = document.getElementById("detalhes")
     catalogoEventos = document.getElementById("card")
-
     if (catalogoEventos != null) {
-        criarCard();
+        criarCard("todos", "todos");
     }
     if (detalhesEvento != null) {
         carregarEventos();
@@ -146,12 +230,14 @@ window.onload = function () {
     let cDocentes = document.getElementById("consultarDocente")
     let configuracoes = document.getElementById("configuracoes")
     let registarEventos = document.getElementById("registarEventos")
+    let imgLogado = document.getElementById("imagemLogado")
 
     if (logado == null) {
         registar.style.display = 'block';
         login.style.display = 'block';
         logout.style.display = 'none';
         configuracoes.style.display = 'none';
+        registarEventos.style.display = 'none'
     }
     else {
         registar.style.display = 'none';
@@ -172,6 +258,11 @@ window.onload = function () {
                 cDocentes.style.display = 'block';
                 registarEventos.style.display = 'none'
                 console.log("estudante logado")
+                for (let j = 0; j < utilizadores.length; j++) {
+                    if (logado[0] == utilizadores[j]._nome) {
+                        imgLogado.src = utilizadores[j]._foto
+                    }
+                }
             }
             if (logado[2] == "docente") {
                 eventosBotao.style.display = 'block';
@@ -179,9 +270,15 @@ window.onload = function () {
                 configuracoes.style.display = 'block';
                 cDocentes.style.display = 'block';
                 console.log("docente logado")
+                for (let j = 0; j < docentes.length; j++) {
+                    if (logado[0] == docentes[j]._nome) {
+                        imgLogado.src = docentes[j]._foto
+                    }
+                }
             }
         }
     }
+    adicionarCategorias();
 }
 
 function adicionarEvento() {
@@ -193,22 +290,8 @@ function adicionarEvento() {
     let sala = document.getElementById("modalSala")
     let responsavel = document.getElementById("modalResponsavel")
     let parceria = document.getElementById("modalParceria")
+    let categoriaModal = document.getElementById("modalCategorias")
     let imagem = document.getElementById("modalImagemEvento")
-    url = imagem.value
-
-    //Data Atual
-    let dataAtual = new Date();
-    let dd = dataAtual.getDate();
-    let mm = dataAtual.getMonth() + 1; //Janeiro é 0
-    let aaaa = dataAtual.getFullYear();
-
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    dataAtual = aaaa + '-' + mm + '-' + dd;
 
     //Verificações
     if (data.value <= dataAtual) {
@@ -225,26 +308,19 @@ function adicionarEvento() {
             existe = true
             event.preventDefault();
         }
-        if (imagem.value == "") {
-            url = "https://pbs.twimg.com/profile_images/792011747397865473/2r6wseRk_400x400.jpg"
-            existe = false
-        }
         else {
             existe = false
         }
     }
 
-    console.log("passou o primeiro if");
     if (strErro == "") {
         if (existe == false) {
-            let novoEvento = new Evento(nomeEvento.value, descricao.value, data.value, hora.value, sala.value, responsavel.value, parceria.value, url, arrayComentarios, "")
+            let novoEvento = new Evento(nomeEvento.value, descricao.value, data.value, hora.value, sala.value, responsavel.value, parceria.value, imagem.value, arrayComentarios, "", categoriaModal.value)
             eventos.push(novoEvento);
             alert("Registo criado com sucesso")
 
             localStorage.setItem("eventos", JSON.stringify(eventos));
-            console.log(localStorage);
         }
-        console.log("criou o str error");
     }
     else {
         alert(strErro)
@@ -252,23 +328,93 @@ function adicionarEvento() {
 }
 
 //Adiciona dados ao card
-function criarCard() {
+function criarCard(filtro, tempo) {
     let strCard = ""
-
     for (var i = 0; i < eventos.length; i++) {
+        if (eventos[i]._imagem == "") {
+            url = "https://pbs.twimg.com/profile_images/792011747397865473/2r6wseRk_400x400.jpg"
+        }
+
         if (i % 3 == 0) {
             strCard += `<div class="row">`
         }
-        // Cria o card
-        strCard += `<div class="col-sm-4">
-        <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
-            <img class="card-img-top" style="width: 286px; heigth: 286px" src="${eventos[i]._imagem}">
-            <div class="card-body">
-                <h5 class="card-title">${eventos[i]._nome}</h5>
-                <p class="card-text">${eventos[i]._descricao}</p>`
+        //se o tempo for todos
+        if (tempo == "todos") {
+            //se o filtro for todos
+            if (filtro == "todos") {
+                // Cria o card
+                strCard += `<div class="col-sm-4">
+            <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem">
+                <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                <div class="card-body">
+                    <h5 class="card-title">${eventos[i]._nome}</h5>
+                    <p class="card-text">${eventos[i]._descricao}</p>`
 
-        strCard += `</div></div></div>`
+                strCard += `</div></div></div>`
+            }
+            //se o filtro for uma categoria
+            if (filtro == eventos[i]._categoria) {
+                strCard += `<div class="col-sm-4">
+                <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventos[i]._nome}</h5>
+                        <p class="card-text">${eventos[i]._descricao}</p>`
 
+                strCard += `</div></div></div>`
+            }
+        }
+        //se o tempo for eventosFuturos
+        else if (tempo == "eventosFuturos") {
+            //se o filtro for todos e se a data do evento for maior do que a data atual
+            if (filtro == "todos" && eventos[i]._data >= dataAtual) {
+                strCard += `<div class="col-sm-4">
+                <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventos[i]._nome}</h5>
+                        <p class="card-text">${eventos[i]._descricao}</p>`
+
+                strCard += `</div></div></div>`
+            }
+            //se o filtro for uma categoria e se a data do evento for maior do que a data atual
+            if (filtro == eventos[i]._categoria && eventos[i]._data >= dataAtual) {
+                strCard += `<div class="col-sm-4">
+                <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventos[i]._nome}</h5>
+                        <p class="card-text">${eventos[i]._descricao}</p>`
+
+                strCard += `</div></div></div>`
+            }
+
+        }
+        //se o tempo for eventosRealizados
+        else if (tempo == "eventosRealizados") {
+             //se o filtro for todos e se a data do evento for menor do que a data atual
+            if (filtro == "todos" && eventos[i]._data <= dataAtual) {
+                strCard += `<div class="col-sm-4">
+                <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventos[i]._nome}</h5>
+                        <p class="card-text">${eventos[i]._descricao}</p>`
+
+                strCard += `</div></div></div>`
+            }
+             //se o filtro for uma categoria e se a data do evento for menor do que a data atual
+            if (filtro == eventos[i]._categoria && eventos[i]._data <= dataAtual) {
+                strCard += `<div class="col-sm-4">
+                <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 286px; heigth: 286px" src="${url}">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventos[i]._nome}</h5>
+                        <p class="card-text">${eventos[i]._descricao}</p>`
+
+                strCard += `</div></div></div>`
+            }
+        }
         if (i % 3 == 2) {
             strCard += `</div>`
         }
@@ -287,7 +433,7 @@ let eventoCarregado = []
 //PAGINA VER EVENTOS
 function carregarEventos() {
     let id = window.location.hash
-
+console.log(id)
     substringID = id.substring(1)
     console.log(substringID)
 
@@ -300,11 +446,14 @@ function carregarEventos() {
     console.log(eventoCarregado)
     let strDetalhes = ""
 
-
+    if (eventoCarregado[0]._imagem == "") {
+        url = "https://pbs.twimg.com/profile_images/792011747397865473/2r6wseRk_400x400.jpg"
+    }
     strDetalhes += `<div class="col-1"></div>
         <div class="col-10"><div class="jumbotron mt-5">
-        <img class="img-responsive w-100 h-100" src="${eventoCarregado[0]._imagem}">
-        <div><h1 class="display-3 text-center m-3">${eventoCarregado[0]._nome}</h1></div>
+        <img class="img-responsive w-100 h-100" src="${url}">
+        <div><h1 class="display-3 text-center m-2">${eventoCarregado[0]._nome}</h1></div>
+        <div><p class="text-center">${eventoCarregado[0]._categoria}</p></div>
         <div><center><table class='w-25' style='text-align:center'>
         <thead>
             <tr><th>Data</th><th>Hora</th><th>Sala</th></tr>
@@ -313,7 +462,7 @@ function carregarEventos() {
             <tr><td>${eventoCarregado[0]._data}</td><td>${eventoCarregado[0]._hora}</td><td>${eventoCarregado[0]._sala}</td></tr>
         </tbody>
         </table ></center></div>
-        <p class="lead">${eventoCarregado[0]._descricao}</p>
+        <p class="lead my-4" style="">${eventoCarregado[0]._descricao}</p>
         <div><textarea id="comentarioTextArea" class="w-100" cols="150" rows="4"></textarea></div>
         <div style="text-align:right"><button id="comentarioBotao" type="button" onclick="adicionarComentario()" value="Enviar">Enviar</button></div></div>`
 
@@ -360,7 +509,7 @@ function mostrarComentarios() {
             }
 
         }
-        strComentarios += `<div><h4><img  class="rounded border border-secondary m-2" style="width: 40px; height: 40px" src="${img}"></img>${arrayComentarios[i].nomeLogado}</h4></div><div class="mb-2">${arrayComentarios[i].comentarioNovo}</div><hr>`
+        strComentarios += `<div><h4><img class="rounded border border-dark m-2" style="width: 40px; height: 40px" src="${img}"></img>${arrayComentarios[i].nomeLogado}</h4></div><div class="mb-2">${arrayComentarios[i].comentarioNovo}</div><hr>`
         console.log("entrei")
     }
     strComentarios += `</div></div>`
@@ -369,5 +518,29 @@ function mostrarComentarios() {
 
     let comentarios = document.getElementById("comentarios")
     comentarios.innerHTML += strComentarios
+}
+
+// Preencher combobox com categorias
+function adicionarCategorias() {
+    let strCategorias = "<option value='todos'>Todos</option>"
+    let strCategoriasModal = "<option value='' selected disabled>Categoria</option>"
+    console.log(categoriasArray)
+    for (let i = 0; i < categoriasArray.length; i++) {
+        strCategorias += `<option value='${categoriasArray[i]._descricao}'>${categoriasArray[i]._descricao}</option>`
+        strCategoriasModal += `<option value='${categoriasArray[i]._descricao}'>${categoriasArray[i]._descricao}</option>`
+    }
+
+    let filtro = document.getElementById("filtro")
+    filtro.innerHTML = strCategorias
+
+    let modalCategorias = document.getElementById("modalCategorias")
+    modalCategorias.innerHTML = strCategoriasModal
+}
+
+function procurarEventos() {
+    let filtro = document.getElementById("filtro").value
+    let filtroTempo = document.getElementById("filtroData").value
+    criarCard(filtro, filtroTempo)
+
 }
 

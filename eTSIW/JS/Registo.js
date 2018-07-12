@@ -1,7 +1,7 @@
 let utilizadores = [];
 let docentes = [];
 let registado;
-let linkFoto;
+let linkFotoFoto;
 let logado = [];
 
 //CLASSE UTILIZADOR
@@ -171,6 +171,7 @@ window.onload = function () {
     let configuracoes = document.getElementById("configuracoes")
     let submitLogin = document.getElementById("submitLogin");
     let submitRegistar = document.getElementById("submitRegistar");
+    let imgLogado = document.getElementById("imagemLogado")
 
     //Esconder botões de login e registo consoante login validado ou nao
     if (logado == null) {
@@ -201,6 +202,11 @@ window.onload = function () {
                 configuracoes.style.display = 'none';
                 cDocentes.style.display = 'block';
                 console.log("estudante logado")
+                for (let j = 0; j < utilizadores.length; j++) {
+                    if (logado[0] == utilizadores[j]._nome) {
+                        imgLogado.src = utilizadores[j]._foto
+                    }
+                }
             }
             if (logado[2] == "docente") {
                 eventosBotao.style.display = 'block';
@@ -208,6 +214,11 @@ window.onload = function () {
                 configuracoes.style.display = 'block';
                 cDocentes.style.display = 'block';
                 console.log("docente logado")
+                for (let j = 0; j < docentes.length; j++) {
+                    if (logado[0] == docentes[j]._nome) {
+                        imgLogado.src = docentes[j]._foto
+                    }
+                }
             }
         }
     }
@@ -220,7 +231,7 @@ window.onload = function () {
         let rPass = document.getElementById("modalPass")
         let rConfPass = document.getElementById("modalConfPass")
         let rFoto = document.getElementById("modalFoto")
-        link = rFoto.value;
+        linkFoto = rFoto.value;
 
         let strErro = ""
 
@@ -256,7 +267,7 @@ window.onload = function () {
                     }
                 }
                 if (rFoto.value == "") {
-                    link = "https://cdn.pixabay.com/photo/2016/11/14/17/39/person-1824147_960_720.png"
+                    linkFoto = "../Imagens/default.jpg"
                     registado = false
                 }
             }
@@ -264,7 +275,7 @@ window.onload = function () {
 
         if (strErro == "") {
             if (registado == false) {
-                let novoUtilizador = new Utilizador(rNome.value, rEmail.value, rPass.value, link, "estudante")
+                let novoUtilizador = new Utilizador(rNome.value, rEmail.value, rPass.value, linkFoto, "estudante")
                 utilizadores.push(novoUtilizador);
                 alert("Registo criado com sucesso")
                 console.log(utilizadores);
@@ -297,7 +308,7 @@ window.onload = function () {
                     localStorage.setItem("logado", JSON.stringify(logado));
                 }
                 encontrado = true
-                alert("Login feito com sucesso")
+                alert("Login efetuado com sucesso")
             }
         }
         //Verifica se o input existe
