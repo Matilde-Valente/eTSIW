@@ -3,6 +3,7 @@ logado = JSON.parse(localStorage.getItem("logado"))
 let parceriasArray = [];
 let categoriasArray = [];
 
+//CLASSE PARCERIA
 class Parceria {
     constructor(instituicao, localizacao, link) {
         this.instituicao = instituicao;
@@ -33,6 +34,7 @@ class Parceria {
 
 }
 
+//CLASSE CATEGORIA
 class Categoria {
     constructor(descricao) {
         this._descricao = descricao;

@@ -155,10 +155,10 @@ if (localStorage.getItem("docentes") == null) {
 //Vai buscar a key utilizadores e guarda no array utilizadores
 utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
 
-//Vai buscar a key docentes e guarda no array utilizadores
+//Vai buscar a key docentes e guarda no array docentes
 docentes = JSON.parse(localStorage.getItem("docentes"));
 
-//verificar se está feito login, e se sim, info de utilizador
+//Vai buscar a key logado e guarda no array logado
 logado = JSON.parse(localStorage.getItem("logado"));
 
 window.onload = function () {
@@ -173,7 +173,7 @@ window.onload = function () {
     let submitRegistar = document.getElementById("submitRegistar");
     let imgLogado = document.getElementById("imagemLogado")
 
-    //Esconder botões de login e registo consoante login validado ou nao
+    //Restrições
     if (logado == null) {
         registar.style.display = 'block';
         login.style.display = 'block';
@@ -223,8 +223,8 @@ window.onload = function () {
         }
     }
 
+    //REGISTO
     let registo = document.getElementById("formRegisto")
-
     registo.addEventListener("submit", function (event) {
         let rNome = document.getElementById("modalNome")
         let rEmail = document.getElementById("modalEmail")

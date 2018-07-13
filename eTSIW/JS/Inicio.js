@@ -1,5 +1,6 @@
-//verificar se está feito login, e se sim, info de utilizador
 logado = JSON.parse(localStorage.getItem("logado"));
+utilizadores = JSON.parse(localStorage.getItem("utilizadores"));
+docentes = JSON.parse(localStorage.getItem("docentes"))
 
 window.onload = function () {
     let registar = document.getElementById("registar")
@@ -8,7 +9,9 @@ window.onload = function () {
     let eventosBotao = document.getElementById("eventos")
     let cDocentes = document.getElementById("consultarDocente")
     let configuracoes = document.getElementById("configuracoes")
+    let imgLogado = document.getElementById("imagemLogado")
 
+    //Restrições
     if (logado <= 0) {
         registar.style.display = 'block';
         login.style.display = 'block';
@@ -33,6 +36,11 @@ window.onload = function () {
                 configuracoes.style.display = 'none';
                 cDocentes.style.display = 'block';
                 console.log("estudante logado")
+                for (let j = 0; j < utilizadores.length; j++) {
+                    if (logado[0] == utilizadores[j]._nome) {
+                        imgLogado.src = utilizadores[j]._foto
+                    }
+                }
             }
             if (logado[2] == "docente") {
                 eventosBotao.style.display = 'block';
@@ -40,26 +48,27 @@ window.onload = function () {
                 configuracoes.style.display = 'block';
                 cDocentes.style.display = 'block';
                 console.log("docente logado")
+                for (let j = 0; j < docentes.length; j++) {
+                    if (logado[0] == docentes[j]._nome) {
+                        imgLogado.src = docentes[j]._foto
+                    }
+                }
             }
         }
     }
+    //Cria card de docentes
     criarCardDocente();
 }
 
 function criarCardDocente() {
-
     docentes = JSON.parse(localStorage.getItem("docentes"));
 
     let strCardDocente = ""
-
-    console.log("estou dentro da funcao")
-    console.log(docentes)
 
     for (let i = 0; i < docentes.length; i++) {
         if (i % 3 == 0) {
             strCardDocente += `<div class="row">`
         }
-        console.log("dentro do for")
         // Cria o card
         strCardDocente += `<div class="col-sm-4">
             <div class="card" style="width: 18rem" onClick="abrirCardDocente(${i})" data-toggle="modal" data-target="#modalProf">
@@ -92,4 +101,3 @@ function abrirCardDocente(n) {
     unidadeCurricularProf.innerHTML = docentes[n]._unidadesCurriculares;
     cvProf.innerHTML = docentes[n]._shortCV;
 }
-

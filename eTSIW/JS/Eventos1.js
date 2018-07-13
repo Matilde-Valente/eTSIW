@@ -1,3 +1,4 @@
+//VARIÁVEIS GLOBAIS
 let eventos = [];
 let existe = false;
 let detalhesEvento;
@@ -152,7 +153,6 @@ class Parceria {
     set link(novoLink) {
         this._link = novoLink;
     }
-
 }
 
 if (localStorage.getItem("eventos") == null) {
@@ -207,22 +207,25 @@ window.onload = function () {
     dataAtual = aaaa + '-' + mm + '-' + dd;
     console.log("Data atual: " + dataAtual)
 
-    adicionar = document.getElementById("modalEventos")
-    detalhesEvento = document.getElementById("detalhes")
+
     catalogoEventos = document.getElementById("card")
     if (catalogoEventos != null) {
         criarCard("todos", "todos");
     }
+
+    detalhesEvento = document.getElementById("detalhes")
     if (detalhesEvento != null) {
         carregarEventos();
         arrayComentarios = eventos[substringID - 1]._comentario
         mostrarComentarios();
     }
 
+    adicionar = document.getElementById("modalEventos")
     if (adicionar != null) {
         adicionar.addEventListener("submit", adicionarEvento);
     }
 
+    //Variáveis para as restrições
     let registar = document.getElementById("registar")
     let login = document.getElementById("login")
     let logout = document.getElementById("logout")
@@ -232,6 +235,7 @@ window.onload = function () {
     let registarEventos = document.getElementById("registarEventos")
     let imgLogado = document.getElementById("imagemLogado")
 
+    //Restrições
     if (logado == null) {
         registar.style.display = 'block';
         login.style.display = 'block';
@@ -278,6 +282,7 @@ window.onload = function () {
             }
         }
     }
+    //Adicionar Categorias à Combobox
     adicionarCategorias();
 }
 
@@ -388,11 +393,10 @@ function criarCard(filtro, tempo) {
 
                 strCard += `</div></div></div>`
             }
-
         }
         //se o tempo for eventosRealizados
         else if (tempo == "eventosRealizados") {
-             //se o filtro for todos e se a data do evento for menor do que a data atual
+            //se o filtro for todos e se a data do evento for menor do que a data atual
             if (filtro == "todos" && eventos[i]._data <= dataAtual) {
                 strCard += `<div class="col-sm-4">
                 <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
@@ -403,7 +407,7 @@ function criarCard(filtro, tempo) {
 
                 strCard += `</div></div></div>`
             }
-             //se o filtro for uma categoria e se a data do evento for menor do que a data atual
+            //se o filtro for uma categoria e se a data do evento for menor do que a data atual
             if (filtro == eventos[i]._categoria && eventos[i]._data <= dataAtual) {
                 strCard += `<div class="col-sm-4">
                 <div class="card" onclick="abrirEventos(${eventos[i]._id})" style="width: 18rem;">
@@ -429,13 +433,13 @@ function abrirEventos(_id) {
     carregarEventos();
 }
 
+//PÁGINA VER EVENTOS
 let eventoCarregado = []
-//PAGINA VER EVENTOS
 function carregarEventos() {
     let id = window.location.hash
-console.log(id)
+    console.log("ID evento: " + id)
+
     substringID = id.substring(1)
-    console.log(substringID)
 
     for (let i = 0; i < eventos.length; i++) {
         if (eventos[i]._id == substringID) {
@@ -443,7 +447,6 @@ console.log(id)
             break;
         }
     }
-    console.log(eventoCarregado)
     let strDetalhes = ""
 
     if (eventoCarregado[0]._imagem == "") {
@@ -474,19 +477,16 @@ console.log(id)
 
 function adicionarComentario() {
     botao = document.getElementById("comentarioBotao")
-    console.log(botao)
 
     let comentarioTextArea = document.getElementById("comentarioTextArea")
     let comentarioNovo = comentarioTextArea.value
     let arrayLogado = JSON.parse(localStorage.getItem("logado"));
     let nomeLogado = arrayLogado[0]
-
     console.log(arrayLogado)
 
     arrayComentarios.push({ nomeLogado, comentarioNovo });
-    console.log(arrayComentarios)
+    console.log("Array Comentários: " + arrayComentarios)
 
-    console.log(eventos)
     eventos[substringID - 1]._comentario = arrayComentarios;
     localStorage.setItem("eventos", JSON.stringify(eventos));
     window.location.reload()
@@ -503,18 +503,13 @@ function mostrarComentarios() {
 
     for (let i = 0; i < arrayComentarios.length; i++) {
         for (let j = 0; j < utilizadores.length; j++) {
-            console.log("ola")
             if (arrayComentarios[i].nomeLogado == utilizadores[j]._nome) {
                 img = utilizadores[j]._foto
             }
-
         }
         strComentarios += `<div><h4><img class="rounded border border-dark m-2" style="width: 40px; height: 40px" src="${img}"></img>${arrayComentarios[i].nomeLogado}</h4></div><div class="mb-2">${arrayComentarios[i].comentarioNovo}</div><hr>`
-        console.log("entrei")
     }
     strComentarios += `</div></div>`
-    console.log(img)
-    console.log(arrayComentarios.length)
 
     let comentarios = document.getElementById("comentarios")
     comentarios.innerHTML += strComentarios
@@ -524,7 +519,6 @@ function mostrarComentarios() {
 function adicionarCategorias() {
     let strCategorias = "<option value='todos'>Todos</option>"
     let strCategoriasModal = "<option value='' selected disabled>Categoria</option>"
-    console.log(categoriasArray)
     for (let i = 0; i < categoriasArray.length; i++) {
         strCategorias += `<option value='${categoriasArray[i]._descricao}'>${categoriasArray[i]._descricao}</option>`
         strCategoriasModal += `<option value='${categoriasArray[i]._descricao}'>${categoriasArray[i]._descricao}</option>`
@@ -541,6 +535,5 @@ function procurarEventos() {
     let filtro = document.getElementById("filtro").value
     let filtroTempo = document.getElementById("filtroData").value
     criarCard(filtro, filtroTempo)
-
 }
 
